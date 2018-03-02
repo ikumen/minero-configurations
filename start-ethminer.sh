@@ -46,7 +46,7 @@ declare -A currency_pool_url_map=(
 # First from local environment variables...
 eth_pay_address="${ETHMINER_ETH_PAY_ADDRESS}"
 etc_pay_address="${ETHMINER_ETC_PAY_ADDRESS}"
-notify_email="${MINER_NOTIFY_EMAIL}" # optional
+notify_email="${ETHMINER_NOTIFY_EMAIL}" # optional
 
 # ... then from local environment file
 if ![ -f "miner.env" ]; then
@@ -118,6 +118,6 @@ fi
 echo "..............................................."
 
 # Finally, let's start mining!!!
-nohup ethminer --farm-recheck ${farm_recheck} --cuda ${devices} --stratum ${pool_url} --stratum-failover ${pool_url_alt} --userpass ${user_address} >> eth-ethminer.log 2>&1 &
+nohup ethminer --farm-recheck ${farm_recheck} --cuda ${devices} --stratum ${pool_url} --stratum-failover ${pool_url_alt} --userpass ${user_address} >> "${currency}-ethminer.log" 2>&1 &
 
 

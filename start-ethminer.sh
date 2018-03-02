@@ -1,21 +1,18 @@
 #!/bin/bash
 # ----------------------------------------------------------------------
-# Simple ethminer wrapper script with support for multiple pools.  
+# Simple ethminer wrapper script with for [etc|eth] on  multiple pools.  
 # 
-# start-ethminer.sh [optional|required [arg]],...
+# start-ethminer.sh [arg1 [val1]],...
 #
-#  required:
-#     -a, --address     address for mining payouts
-#     -w, --worker      name of this worker
-#
-#  optional:
+#  arguments:
+#     -c, --currency    the currency to mine, currently supports [etc|eth]. 
+#                       Defaults to eth.
 #     -d, --devices     list of gpus to mine with (e.g. to mine with gpus 0,1 
 #                       and 4, -d "0 1 4"). Defaults to all Nvidia Geforce 10 
 #                       series gpus found.
 #     -p, --pool        id of pool to mine, valid pool ids are: nano, maxhash, 
 #                       ethermine. Defaults to ethermine.
-#     -e, --email       your email (for outage notification), some pools require
-#                       manual configuration (e.g. ethermine) 
+#     -w, --worker      name of worker. Defaults to saturn.
 #
 # ----------------------------------------------------------------------
   

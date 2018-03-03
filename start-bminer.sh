@@ -31,16 +31,25 @@ pay_address="${BMINER_ZEC_PAY_ADDRESS}"
 notify_email="${BMINER_NOTIFY_EMAIL}"
 
 # .. then from local env file
-if [ ! -f "miner.env" ]; then
+if [ -f "miner.env" ]; then
   source "miner.env"
 fi
 
 # Read in arguments
 while [ "$1" != "" ]; do
   case $1 in
-    -c|--currency) shift currency=$1 ;;
-    -d|--devices) shift devices="-devices $1" ;;
-    -w|--worker) shift worker=$1 ;;
+    -c | --currency) 
+      shift 
+      currency=$1 
+    ;;
+    -d|--devices) 
+      shift 
+      devices="-devices $1" 
+    ;;
+    -w|--worker) 
+      shift 
+      worker=$1 
+    ;;
   esac
   shift
 done

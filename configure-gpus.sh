@@ -37,7 +37,10 @@ gpu_id_model_regex="GPU ([0-9]): GeForce GTX ([0-9]{4}) .*"
 # Let's get the currency we want to tweak gpu for.
 while [ "$1" != "" ]; do
   case $1 in
-    -c|--curr) shift currency=$1 ;;
+    -c | --curr) 
+      shift 
+      currency=$1 
+    ;;
   esac
   shift
 done

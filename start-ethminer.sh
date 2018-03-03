@@ -49,17 +49,26 @@ etc_pay_address="${ETHMINER_ETC_PAY_ADDRESS}"
 notify_email="${ETHMINER_NOTIFY_EMAIL}" # optional
 
 # ... then from local environment file
-if ![ -f "miner.env" ]; then
+if [ -f "miner.env" ]; then
   source "miner.env"
 fi
 
 # Read in required/optional arguments.
 while [ "$1" != "" ]; do
   case $1 in
-    -c|--currency) shift currency=$1 ;;
-    -p|--pool) shift pool=$1 ;;
-    -d|--devices) shift devices="--cuda-devices $1" ;; # TODO: validate gpu ids
-    -w|--worker) shift worker=$1 ;;
+    -c | --currency) 
+      shift 
+      currency=$1 
+    ;;
+    -p | --pool) 
+      shift 
+      pool=$1 
+    ;;
+    -d | --devices) 
+      shift 
+      devices="--cuda-devices $1" 
+    ;; 
+    -w | --worker) shift worker=$1 ;;
   esac
   shift
 done

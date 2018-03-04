@@ -20,7 +20,7 @@ pool="flypool"
 worker="saturn"
 
 # Map of mining pool urls, keyed by pool name
-declare -A pool_urls_map=(
+declare -A pool_url_map=(
   ["flypool"]="us1-zcash.flypool.org:3333"
   ["nano"]="zec-us-west1.nanopool.org:6666"
 )
@@ -38,9 +38,9 @@ fi
 # Read in arguments
 while [ "$1" != "" ]; do
   case $1 in
-    -c | --currency) 
+    -p | --pool) 
       shift 
-      currency=$1 
+      pool=$1 
     ;;
     -d|--devices) 
       shift 
@@ -70,10 +70,11 @@ else
 fi
 
 # Construct final address/worker/email --userpass argument 
-if [ -z "${notify_email}" ]; then
+if [ ! -z "${notify_email}" ] && [ "${pool}" == "nano" ]; then
+  # Only nanopool takes email in connection string.
   user_address="${pay_address}.${worker}%2F${notify_email}"
 else
-  user_address=="${pay_address}.${worker}"
+  user_address="${pay_address}.${worker}"
 fi
 
 echo "..............................................."

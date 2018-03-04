@@ -102,7 +102,7 @@ else
 fi
 
 # Construct final address/worker/email for --userpass argument 
-if [ -z "${notify_email}" ]; then
+if [ ! -z "${notify_email}" ] && [ "${pool}" == "nano" ]; then
   user_address="${pay_address}.${worker}/${notify_email}"
 else 
   user_address="${pay_address}.${worker}"
@@ -126,7 +126,11 @@ else
 fi   
 echo "..............................................."
 
+if [ "${pool}" == "maxhash" ]; then
+  maxhash_extra="-SP 1"
+fi 
+
 # Finally, let's start mining!!!
-nohup ethminer --farm-recheck ${farm_recheck} --cuda ${devices} --stratum ${pool_url} --stratum-failover ${pool_url_alt} --userpass ${user_address} >> "${currency}-ethminer.log" 2>&1 &
+nohup ethminer --farm-recheck ${farm_recheck} --cuda ${devices} --stratum ${pool_url} --stratum-failover ${pool_url_alt} ${maxhash_extra} --userpass ${user_address} >> "${currency}-ethminer.log" 2>&1 &
 
 

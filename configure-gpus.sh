@@ -59,6 +59,10 @@ for gpu in "${gpus[@]}"; do
     model="${BASH_REMATCH[2]}"
 
     if [ -z "${currency_gpu_settings_map[${model}_${currency}_rate]}" ]; then
+      echo "Unable to find proper gpu setting for currency=${currency}, gpu=${model}!"
+      echo "Please make sure currency is set to [etc|eth|zec]"
+      exit 1
+    else
       rate_offset="${currency_gpu_settings_map[${model}_${currency}_rate]}"
       clock_offset="${currency_gpu_settings_map[${model}_${currency}_clock]}"
       power="${currency_gpu_settings_map[${model}_${currency}_power]}"
@@ -66,10 +70,6 @@ for gpu in "${gpus[@]}"; do
       sudo DISPLAY=:0 nvidia-smi -pl $power -i $id
       sudo DISPLAY=:0 nvidia-settings -a "[gpu:$id]/GPUMemoryTransferRateOffset[3]=$rate_offset"
       sudo DISPLAY=:0 nvidia-settings -a "[gpu:$id]/GPUGraphicsClockOffset[3]=$clock_offset"
-    else
-      echo "Unable to find proper gpu setting for currency=${currency}, gpu=${model}!"
-      echo "Please make sure currency is set to [etc|eth|zec]"
-      exit 1
     fi
   fi
 done

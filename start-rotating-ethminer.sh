@@ -45,6 +45,11 @@ get_next_eth_address() {
   done
 }
 
+start_miner() {
+  export ETHMINER_ETH_PAY_ADDRESS="$1"
+  . minero-scripts/start-ethminer.sh
+}
+
 # Get our address we're currently mining to, otherwise get 
 # first address on our list.
 if [ -f "${current_eth_address_file}" ]; then
@@ -75,12 +80,18 @@ if [ ${unpaid} -gt ${pool_payout_threshold} ]; then
   echo ${current_eth_address} > "${current_eth_address_file}"
   export ETHMINER_ETH_PAY_ADDRESS=${current_eth_address}  
 
-  # TODO: stop  miner
+  # TODO: stop/retart  miner
   . stop-miner.sh eth
-  # TODO: restart miner 
-  . start-ethminer.sh
+  start_miner "${current_eth_address}"
+
 else
-  echo "Unpaid (${unpaid}) is still under threshold, continue mining .. ${current_eth_address}"
+  pid=`ps aux | grep -i "[e]thminer --farm-recheck" | awk {'print $2'}`
+  if [ ${pid} ]; then
+    echo "Unpaid (${unpaid}) is still under threshold, continue mining .. ${current_eth_address}"
+  else
+    echo "Unpaid (${unpaid}) is still under threshold, let's start miner for .. ${current_eth_address}"
+    start_miner "${current_eth_address}"
+  fi
 fi
 
 

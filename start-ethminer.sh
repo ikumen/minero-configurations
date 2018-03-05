@@ -20,7 +20,7 @@
   
 # How often to check server for new work (ethminer default is 500,
 # but when using stratum we should use 2000, see ethminer --help).
-farm_recheck="2000"
+farm_recheck="1500"
 # Default pool to mine at. 
 pool="ethermine"
 # Default currency to mine.

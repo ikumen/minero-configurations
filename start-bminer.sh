@@ -35,6 +35,10 @@ if [ -f "miner.env" ]; then
   source "miner.env"
 fi
 
+if [ -z "${BMINER_HOME}" ]; then
+  echo "Missing path to bminer"
+fi
+
 # Read in arguments
 while [ "$1" != "" ]; do
   case $1 in
@@ -95,5 +99,5 @@ if [ -f "zec-bminer.log" ]; then
    mv "zec-bminer.log" "oldlogs/zec-bminer.log.$tstamp" 
 fi
 
-nohup ./bminer/bminer ${devices} -uri stratum://${user_address}@${pool_url} >> zec-bminer.log 2>&1 &
+nohup ${BMINER_HOME}/bin/bminer ${devices} -uri stratum://${user_address}@${pool_url} >> "zec-bminer-${worker}.log" 2>&1 &
 

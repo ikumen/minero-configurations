@@ -12,13 +12,20 @@
 
 # map of settings per gpu model/currency
 declare -A currency_gpu_settings_map=(
-  ["1060_power"]="110"      ["1070_power"]="115"
-  ["1060_zec_rate"]="512"   ["1070_zec_rate"]="1024"   
-  ["1060_zec_clock"]="100"  ["1070_zec_clock"]="100"
-  ["1060_eth_rate"]="1100"  ["1070_eth_rate"]="1400"
-  ["1060_eth_clock"]="100"  ["1070_eth_clock"]="100"
-  ["1060_etc_rate"]="1100"  ["1070_etc_rate"]="1400"
-  ["1060_etc_clock"]="100"  ["1070_etc_clock"]="100"
+  ["1060_power"]="110"      
+  ["1070_power"]="115"
+  ["1060_zec_rate"]="512"   
+  ["1070_zec_rate"]="1024"   
+  ["1060_zec_clock"]="100"  
+  ["1070_zec_clock"]="100"
+  ["1060_eth_rate"]="1100"  
+  ["1070_eth_rate"]="1400"
+  ["1060_eth_clock"]="100"  
+  ["1070_eth_clock"]="100"
+  ["1060_etc_rate"]="1100"  
+  ["1070_etc_rate"]="1400"
+  ["1060_etc_clock"]="100"  
+  ["1070_etc_clock"]="100"
 )
 
 # Parse for installed gpus, specifically we are looking
@@ -65,9 +72,9 @@ for gpu in "${gpus[@]}"; do
     else
       rate_offset="${currency_gpu_settings_map[${model}_${currency}_rate]}"
       clock_offset="${currency_gpu_settings_map[${model}_${currency}_clock]}"
-      power="${currency_gpu_settings_map[${model}_${currency}_power]}"
+      power="${currency_gpu_settings_map[${model}_power]}"
 
-      sudo DISPLAY=:0 nvidia-smi -pl $power -i $id
+      sudo DISPLAY=:0 nvidia-smi -pl ${power} -i $id
       sudo DISPLAY=:0 nvidia-settings -a "[gpu:$id]/GPUMemoryTransferRateOffset[3]=$rate_offset"
       sudo DISPLAY=:0 nvidia-settings -a "[gpu:$id]/GPUGraphicsClockOffset[3]=$clock_offset"
     fi

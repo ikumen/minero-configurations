@@ -20,7 +20,7 @@
   
 # How often to check server for new work (ethminer default is 500,
 # but when using stratum we should use 2000, see ethminer --help).
-farm_recheck="1500"
+farm_recheck="2000"
 # Default pool to mine at. 
 pool="ethermine"
 # Default currency to mine.
@@ -30,8 +30,8 @@ worker="saturn"
 
 # Map of mining pool urls we can target, keyed by currency-pool.
 declare -A currency_pool_url_map=(
-   ["eth_ethermine"]="us2.ethermine.org:4444"
-   ["eth_ethermine_alt"]="us1.ethermine.org:4444"
+   ["eth_ethermine"]="us2.ethermine.org:5555"
+   ["eth_ethermine_alt"]="us1.ethermine.org:5555"
    ["eth_nano"]="eth-us-west1.nanopool.org:9999"
    ["eth_nano_alt"]="eth-us-east1.nanopool.org:9999"
    ["eth_maxhash"]="eth-us.maxhash.org:10011"
@@ -51,6 +51,10 @@ notify_email="${ETHMINER_NOTIFY_EMAIL}" # optional
 # ... then from local environment file
 if [ -f "miner.env" ]; then
   source "miner.env"
+fi
+
+if [ -z "${ETHMINER_HOME}" ]; then
+  echo "Missing path to ethminer home!"
 fi
 
 # Read in required/optional arguments.
@@ -131,6 +135,6 @@ if [ "${pool}" == "maxhash" ]; then
 fi 
 
 # Finally, let's start mining!!!
-nohup ethminer --farm-recheck ${farm_recheck} --cuda ${devices} --stratum ${pool_url} --stratum-failover ${pool_url_alt} ${maxhash_extra} --userpass ${user_address} >> "${currency}-ethminer.log" 2>&1 &
+nohup ${ETHMINER_HOME}/bin/ethminer --farm-recheck ${farm_recheck} -U ${devices} -P stratum+ssl://${user_address}@${pool_url}  >> "${currency}-ethminer.log" 2>&1 &
 
 
